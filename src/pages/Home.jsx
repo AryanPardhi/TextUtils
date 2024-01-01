@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-
-function Textbody() {
+import {showAlertFunc} from '../App'
+function Textbody(props) {
+    const showAlert = showAlertFunc(props.setAlert);
     const clear = () => {
         setText("")
     }
     const copy = () => {
         navigator.clipboard.writeText(text)
             .then(() => {
-                alert("Copied the text: " + text);
+                showAlert("Copied to clipBoard:", "info");
             })
             .catch((err) => {
                 console.error('Unable to copy text to clipboard', err);
@@ -30,7 +31,7 @@ function Textbody() {
         <>
             <div className="mt-3 mx-5">
                 <div className='d-flex align-items-center justify-content-between'>
-                    <h3 className='mb-6'>Enter the text here</h3>
+                    <h3 className={`mb-6 text-${props.mode==='dark'?'light':'dark'}`}>Enter the text here</h3>
                     <div className="topbtn">
                         <button type="button" onClick={clear} className="btn btn-outline-danger mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
@@ -47,13 +48,13 @@ function Textbody() {
                 <button type="button" className="btn btn-secondary mt-4 mx-2" onClick={lowerCase}>To Lowercase</button>
             </div>
             <div className="textDesc mt-4 mx-5">
-                <h3>Text Description</h3>
-                <p className='text-success fs-5'>Words {text.split(" ").length} & Characters including Spaces {text.length}</p>
+                <h3 className={`text-${props.mode==='dark'?'light':'dark'}`}>Text Description</h3>
+                <p className={`text-${props.mode==='dark'?'danger':'success'} fs-5`}>Words {text.split(" ").length} & Characters including Spaces {text.length}</p>
             </div>
-            <div className="preview mt4 mx-5">
-                <h3>Preview</h3>
-                <div className="contain bg-dark border border-white rounded-pill d-flex align-items-center px-3">
-                    <p className='text-white mt-1'>{text}</p>
+            <div className="preview mt-4 mx-5">
+                <h3 className={`text-${props.mode==='dark'?'light':'dark'}`}>Preview</h3>
+                <div className={`contain bg-${props.mode==='dark'?'light':'dark'} border border-white rounded-end rounded-start d-flex align-items-center px-3`}>
+                    <p className={`text-${props.mode==='light'?'light':'dark'} mt-2`}>{text.length >0 ? text :"Enter text to preview"}</p>
                 </div>
             </div>
         </>
